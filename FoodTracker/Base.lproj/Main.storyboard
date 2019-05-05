@@ -75,8 +75,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="z9u-hI-aCT">
-                                <rect key="frame" x="16" y="84" width="343" height="410"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="z9u-hI-aCT">
+                                <rect key="frame" x="16" y="84" width="343" height="416"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter meal name." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9k6-iP-43o">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="30"/>
@@ -94,8 +94,8 @@
                                             <outletCollection property="gestureRecognizers" destination="dFn-yf-rZu" appends="YES" id="XiT-hh-UZs"/>
                                         </connections>
                                     </imageView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="YAj-Ov-wta" userLabel="RatingControl" customClass="RatingControl" customModule="FoodTracker" customModuleProvider="target">
-                                        <rect key="frame" x="45.5" y="366" width="252" height="44"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="YAj-Ov-wta" userLabel="RatingControl" customClass="RatingControl" customModule="FoodTracker" customModuleProvider="target">
+                                        <rect key="frame" x="45.5" y="366" width="252" height="50"/>
                                     </stackView>
                                 </subviews>
                                 <constraints>
@@ -112,8 +112,16 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="New Meal" id="eFv-D3-yGC">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="lsE-z7-kHN"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="vCh-6c-azk"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="lsE-z7-kHN">
+                            <connections>
+                                <action selector="cancel:" destination="BYZ-38-t0r" id="r4u-aY-YAi"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="vCh-6c-azk">
+                            <connections>
+                                <segue destination="QKg-K7-2pu" kind="unwind" unwindAction="unwindToMealListWithSender:" id="xX4-j5-dki"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="nameTextField" destination="9k6-iP-43o" id="QP3-cG-FaN"/>
@@ -123,6 +131,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <exit id="QKg-K7-2pu" userLabel="Exit" sceneMemberID="exit"/>
                 <tapGestureRecognizer id="dFn-yf-rZu">
                     <connections>
                         <action selector="SelectImageFromPhotoLibrary:" destination="BYZ-38-t0r" id="9dB-ex-gBc"/>
