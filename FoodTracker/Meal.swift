@@ -7,8 +7,14 @@
 //
 
 import UIKit
+import os.log
 
-class Meal {
+class Meal: NSObject {
+    
+    //MARK: Archiving Paths
+    
+    static let DocumentDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
+    static let ArchiveURL = DocumentDirectory.appendingPathComponent("meals") // static means these belong to the class and not an instance of the class
     
     //MARK: Properties
     
@@ -16,7 +22,13 @@ class Meal {
     var photo: UIImage?
     var rating: Int
     
+    //MARK: Types
     
+    struct PropertyKey {
+        static let name = "name"
+        static let photo = "photo"
+        static let rating = "rating"
+    }
     
     //MARK: Initialization
     
@@ -37,4 +49,34 @@ class Meal {
         self.photo = photo
         self.rating = rating
     }
+    
+    //MARK: NSCoding
+    //data persistence
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(name, forKey: PropertyKey.name)
+        aCoder.encode(photo, forKey: PropertyKey.photo)
+        aCoder.encode(rating, forKey: PropertyKey.rating)
+        
+        
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) { // required means that it must be implemented on every subclass if the sub has its own initializers
+        // The name is required. If we cannot decode a name string, the initializer should fail.
+        guard let name = aDecoder.decodeObject(forKey: PropertyKey.name) as? String else {
+                os_log("Unable to decode the name for a Meal object.", log: OSLog.default, type: .debug)
+                return nil
+        }
+        
+        // Because photo is an optional property of Meal, just use conditional cast.
+        let photo = aDecoder.decodeObject(forKey: PropertyKey.photo) as? UIImage
+        
+        let rating = aDecoder.decodeInteger(forKey: PropertyKey.rating)
+        
+        // Must call designated initializer.
+        self.init(name: name, photo: photo, rating: rating)
+    }
+    
+    
+    
+    
 }
